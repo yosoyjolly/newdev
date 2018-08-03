@@ -1,0 +1,70 @@
+<aura:component controller='DescuentoAvanzadoApex' implements="flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes" access="global" >
+    <aura:attribute name="recordId" type="String" />
+    
+    <!-- Valores de los inputs del hijo "AssignGeneralValuesV2" -->
+    <aura:attribute name="jsonGeneralValues" type="String"/>
+    <aura:attribute name="jsonSegmentValues" type="String"/>
+    <aura:attribute name="giftValues" type="List"/>
+    <aura:attribute name="productValues" type="String"/>
+    <aura:attribute name="acceptSegments" type="Boolean"/>
+    <aura:attribute name="metaList" type="String"/>
+    
+    <!-- Debug button  -->
+    <lightning:button aura:id="botonGuardar2" variant="brand" label="Debug Descuento Avanzado" onclick="{!c.test}" />
+    
+    <div class="slds-grid slds-grid_vertical">
+        <div class="slds-col">
+            <c:AssignGeneralValuesV2 aura:id="AssignGeneralValuesAudi" recordId="{!v.recordId}" method="{!c.getChildValues}"/>
+        </div>
+    </div>
+    
+   <c:ModelListAudiV2 aura:id="ModelListAudi" recordId="{!v.recordId}" metaList="{!v.metaList}" generalValues="{!v.jsonGeneralValues}" acceptSegments="{!v.acceptSegments}" segmentValues="{!v.jsonSegmentValues}" method="{!c.getChildValues}"/>
+    
+    <aura:attribute name="isOpen" type="boolean" default="false"/>
+    <div class="slds-m-around- -xx-large">
+        <div class="continuar">
+            <lightning:button aura:id="continuar" label="Continuar" class="slds-button slds-button--brand" onclick="{!c.onClickListener}"/>
+        </div>
+        <aura:if isTrue="{!v.isOpen}">
+            <div role="dialog" tabindex="-1" aria-labelledby="header99" class="slds-modal slds-fade-in-open ">
+                <div class="slds-modal__container">
+                    <div class="slds-modal__header">
+                        <lightning:button aura:id="cerrar" class="slds-button slds-modal__close slds-button--icon-inverse" label="X" title="Close" onclick="{!c.onClickListener}"/>
+                        <h2 id="header99" class="slds-text-heading--medium">Aviso legal</h2>
+                    </div>
+                    <div class="slds-modal__content slds-p-around--medium slds-scrollable">
+                        <p>El presente texto tiene como objeto:</p>
+                        <br/>
+                        <ul>
+                            <li>- Recoger el consentimiento expreso del Servicio Oficial al envío de comunicaciones que en su nombre realizará Volkswagen Group España Distribución, S.A.</li>
+                            <li>- Recoger el consentimiento al envío de comunicaciones a las que el Servicio Oficial desee adherirse a través de la herramienta que se ha puesto a disposición del Servicio Oficial para tal fin.</li>
+                            <li>- Recoger el consentimiento expreso del Servicio Oficial al envío de comunicaciones a las que el Servicio Oficial ha confirmado expresamente a través de la casilla de Confirmación.</li>
+                            <li>- Recoger la promoción de precios y/o descuentos aplicables a aquellas comunicaciones a las que el Servicio Oficial ha dado su consentimiento para el envío.</li>
+                        </ul>
+                        <br /> 
+                        <p>Por otro lado, Volkswagen Group España Distribución, S.A se compromete a:</p>
+                        <br />
+                        <ul>
+                            <li>- Realizar las comunicaciones en nombre del Servicio Oficial de acuerdo a la promoción y vigencia que éste nos ha indicado a través de la herramienta habilitada para ello. El Servicio Oficial debe tener en cuenta que la vigencia está relacionada con la vigencia de la promoción y no de la comunicación. </li>
+                            <li>- Volkswagen Group España Distribución, S.A no enviará comunicaciones en nombre del Servicio Oficial a menos que existan las correspondientes promoción vigentes. Por ello el Servicio Oficial debe asegurarse de contar siempre con una promoción vigente para cada una de las comunicaciones que desee que Volkswagen Group España Distribución, S.A envíe en su nombre.</li> 
+                        </ul>
+                        <br />
+                        <p> Por otro lado, Volkswagen Group España Distribución, S.A entiende que el Servicio Oficial ha recabado de manera correcta los datos de clientes que se utilizarán en las comunicaciones en su nombre.</p>
+                        <br/>
+                        <ui:inputCheckbox aura:id="checkboxAccept" class="myCheckbox" label="&nbsp;  Acepto las condiciones y me inscribo a la campaña" change="{!c.onClickListener}"/>
+                        <div class="divider"></div>
+                    </div>
+                    <div class="slds-modal__footer" style="text-align:left; padding-top:0px;">
+                        <ui:inputCheckbox aura:id="checkboxAll"  class="myCheckbox"  label="&nbsp;  Guardar personalización para todas mis instalaciones" disabled="true"/>
+                        <lightning:helptext content="La función de guardado en todas las instalaciones está en desarrollo" />
+                        <div class="btn-wrapper">
+                            <lightning:button aura:id="cerrar" label="Cancelar" class="slds-button slds-button--neutral" onclick="{!c.onClickListener}" />
+                            <lightning:button aura:id="botonGuardar" variant="brand" label="Guardar" onclick="{!c.save}" disabled="true"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slds-backdrop slds-backdrop--open"></div>
+        </aura:if>
+    </div>
+</aura:component>
